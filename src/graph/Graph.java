@@ -2,14 +2,19 @@
 package graph;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Graph 
 {
     int numEdges;
     int numVertices;
+    int minimumBandwidth;
+    int totalBandwidth;
     
     ArrayList<Edge> edges;
     ArrayList<Vertex> vertices;
+    ArrayList<Vertex> minBandwidthPermutation;
+    
     public Graph()
     {
         this(0, 0);
@@ -19,63 +24,101 @@ public class Graph
     {
         this.numEdges = numEdges;
         this.numVertices = numVertices;
+        minimumBandwidth = Integer.MAX_VALUE;
+        totalBandwidth = Integer.MAX_VALUE;
         edges = new ArrayList();
         vertices = new ArrayList();
+        minBandwidthPermutation = new ArrayList(vertices);
     }
     
-    public void minimizedBandwith()
+    // TRY TO MINIMIZE THE MAXIMUM LENGTH TO EACH CONNECTED VERTICES
+    public int getMinimumBandwith()
     {
-        // TRY TO MINIMIZE THE MAXIMUM WIDTH TO EACH CONNECTED VERTICES
-        
-        // 
+        return minimumBandwidth;
     }
     
-    public void print(Vertex v1, Vertex v2)
+    public ArrayList<Vertex> getMinBandwidthPermutation()
     {
-        System.out.print(v1.value + " is connected to " + v2.value + ". ");
+        computeMinBandwidthPermutation(new ArrayList(vertices), new ArrayList());
+        
+        return minBandwidthPermutation;
     }
-
-    public void depthFirstSearch(Vertex v)
+    
+    public void computeMinBandwidthPermutation(ArrayList<Vertex> a1, ArrayList<Vertex> a2)
     {
-        if (v == null) return;
         
-        ArrayList<Vertex> neighbors = getNeighbors(v);
-        
-        for (Vertex neighbor: neighbors)
+        if (a1.isEmpty())
         {
-            if (!neighbor.visited)
+            int min = getMinimumBandwidth(a2);
+            if (minimumBandwidth > min)
             {
-                neighbor.visited = true;
-                print(v, neighbor);
-                depthFirstSearch(neighbor);
+                minimumBandwidth = min;
             }
+            
+        } else
+        {
+            
         }
     }
     
-    public ArrayList<Vertex> getNeighbors(Vertex v)
+    public int getMinimumBandwidth(ArrayList<Vertex> a)
     {
-        ArrayList<Vertex> neighbors = new ArrayList();
-        for (Edge e: edges)
+        int minBandwidth = 0;
+        
+        for (int i = 0; i < a.size(); i++)
         {
-            if (e.v1.value == v.value)
-                neighbors.add(e.v2);
-            else if (e.v2.value == v.value)
-                neighbors.add(e.v1);
+            
         }
-        return neighbors;
+        
+        return minBandwidth;
     }
     
-    public void printConnectedComponents()
-    {
-        for (Vertex v: vertices)
-        {
-            if (!v.visited)
-            {
-                v.visited = true;
-                depthFirstSearch(v);
-            }
-        }
-    }
+//    public void print(Vertex v1, Vertex v2)
+//    {
+//        System.out.print(v1.value + " - " + v2.value + "\n");
+//    }
+//
+//    public void depthFirstSearch(Vertex v)
+//    {
+//        if (v == null) return;
+//        
+//        ArrayList<Vertex> neighbors = getNeighbors(v);
+//        
+//        for (Vertex neighbor: neighbors)
+//        {
+//            if (!neighbor.visited)
+//            {
+//                neighbor.visited = true;
+//                print(v, neighbor);
+//                depthFirstSearch(neighbor);
+//            }
+//        }
+//    }
+//    
+//    public ArrayList<Vertex> getNeighbors(Vertex v)
+//    {
+//        ArrayList<Vertex> neighbors = new ArrayList();
+//        for (Edge e: edges)
+//        {
+//            if (e.v1.value == v.value)
+//                neighbors.add(e.v2);
+//            else if (e.v2.value == v.value)
+//                neighbors.add(e.v1);
+//        }
+//        return neighbors;
+//    }
+//    
+//    public void printConnectedComponents()
+//    {
+//        for (Vertex v: vertices)
+//        {
+//            if (!v.visited)
+//            {
+//                v.visited = true;
+//                depthFirstSearch(v);
+//            }
+//        }
+//    }
     
     public void addVertex(Vertex v)
     {
