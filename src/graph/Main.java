@@ -1,27 +1,74 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package graph;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  *
- * @author stevenliao
+ * @author Steven Liao
+ * 108607000
  */
-public class Main 
+public class Main
 {
     public static void main(String[] args)
     {
         Graph graph = createGraphFromFile();
-        
-//        graph.printConnectedComponents();
-        graph.getMinBandwidthPermutation();
-        graph.getMinimumBandwith();
+
+        print(graph.getMinBandwidthPermutation());
+        System.out.println("Minimum bandwidth: " + graph.getMinimumBandwith());
+    }
+
+    /**
+     * Declares and initializes a new graph with information from a text file.
+     * @return graph
+     */
+    public static Graph createGraphFromFile()
+    {
+        Graph graph = new Graph();
+        try
+        {
+            File f = new File("g-bt-12-11.txt");
+            Scanner file = new Scanner(f);
+
+            int v = Integer.parseInt(file.next());
+            int e = Integer.parseInt(file.next());
+
+            Vertex vertex1, vertex2;
+            Edge edge;
+            for (int x = 0; x < e; x++)
+            {
+                vertex1 = new Vertex(Integer.parseInt(file.next()));
+                vertex2 = new Vertex(Integer.parseInt(file.next()));
+
+                if (!graph.containsVertex(vertex1))
+                    graph.addVertex(vertex1);
+
+                if (!graph.containsVertex(vertex2))
+                    graph.addVertex(vertex2);
+
+                edge = new Edge(vertex1, vertex2);
+
+                graph.addEdge(edge);
+            }
+        } catch (FileNotFoundException e)
+        {
+            
+        }
+        return graph;
+    }
+    
+    public static void print(ArrayList<Vertex> a)
+    {
+        for (int i = 0; i < a.size(); i++)
+        {
+            if (i == a.size() - 1)
+                System.out.println(a.get(i).value);
+            else
+                System.out.print(a.get(i).value + " ");
+        }
     }
     
 //    public static void createGraphFromInput()
@@ -58,39 +105,4 @@ public class Main
 //                g.edges.add(newEdge);
 //        }
 //    }
-    
-    public static Graph createGraphFromFile()
-    {
-        Graph graph = new Graph();
-        try
-        {
-            File f = new File("testfile4.txt");
-            Scanner file = new Scanner(f);
-
-            int e = Integer.parseInt(file.next());
-            int v = Integer.parseInt(file.next());
-
-            Vertex vertex1, vertex2;
-            Edge edge;
-            for (int x = 0; x < e; x++)
-            {
-                vertex1 = new Vertex(Integer.parseInt(file.next()));
-                vertex2 = new Vertex(Integer.parseInt(file.next()));
-
-                if (!graph.containsVertex(vertex1))
-                    graph.addVertex(vertex1);
-
-                if (!graph.containsVertex(vertex2))
-                    graph.addVertex(vertex2);
-
-                edge = new Edge(vertex1, vertex2);
-
-                graph.addEdge(edge);
-            }
-        } catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-        return graph;
-    }
 }
